@@ -196,7 +196,6 @@ export const createApp = (options) => {
     // Configure the server with the basic options
     updatePackageMobify(options.mobify)
 
-    // Set up the proxies
     configureProxyConfigs(options.appHostname, options.protocol)
 
     const app = createExpressApp(options)
@@ -248,14 +247,25 @@ export const createApp = (options) => {
         })
     }
 
-    // The /mobify/ping path provides a very fast and lightweight
-    // healthcheck response.
-    app.get('/mobify/ping', (req, res) =>
+    // Healthcheck
+    app.get('/mobify/ping', (_, res) =>
         res
             .set('cache-control', NO_CACHE)
             .sendStatus(200)
             .end()
     )
+
+    // Proxying
+    if (!isRemote) {
+        app.use(config.proxyPath, config.proxy)
+        app.use(config.cachingPath, config.cachingProxy)
+    } else {
+        app.request('/mobify/proxy/*', (_, res) => {
+            return res.status(501).json({
+                error: 'Please set this environments proxies: https://sfdc.co/cc-mrt-proxy-setup '
+            })
+        })
+    }
 
     // Both local and remote modes can perform proxying. A remote
     // server usually only does proxying for development deployments
@@ -1656,9 +1666,6 @@ const applyPatches = once((options) => {
     // Patch the http.request/get and https.request/get
     // functions to allow us to intercept them (since
     // there are multiple ways to make requests in Node).
-    // We patch once and once only, because otherwise
-    // it's challenging to test the server under different
-    // conditions.
     const getAppHost = () => options.appHostname
     http.request = outgoingRequestHook(http.request, getAppHost)
     http.get = outgoingRequestHook(http.get, getAppHost)
