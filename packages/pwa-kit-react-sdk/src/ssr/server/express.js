@@ -256,11 +256,13 @@ export const createApp = (options) => {
     )
 
     // Proxying
-    if (!isRemote) {
-        app.use(config.proxyPath, config.proxy)
-        app.use(config.cachingPath, config.cachingProxy)
+    if (!isRemote()) {
+        proxyConfigs.forEach((config) => {
+            app.use(config.proxyPath, config.proxy)
+            app.use(config.cachingPath, config.cachingProxy)
+        })
     } else {
-        app.request('/mobify/proxy/*', (_, res) => {
+        app.all('/mobify/proxy/*', (_, res) => {
             return res.status(501).json({
                 error: 'Please set this environments proxies: https://sfdc.co/cc-mrt-proxy-setup '
             })
