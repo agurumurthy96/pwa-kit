@@ -286,7 +286,7 @@ class Auth {
                 if (data.message) {
                     errorMessage = data.message
                 }
-            } catch {}
+            } catch {} // eslint-disable-line no-empty
             throw new HTTPError(response.status, errorMessage)
         }
 
