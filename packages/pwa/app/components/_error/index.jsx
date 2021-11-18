@@ -89,26 +89,26 @@ const Error = (props) => {
                             </Button>
                         </Stack>
                     </Flex>
-                    <Box marginTop={20}>
-                        <Text fontWeight="bold" fontSize="md">
-                            Stack Trace
-                        </Text>
-                        {stack && (
-                            <Box
-                                as="pre"
-                                mt={4}
-                                fontSize="sm"
-                                background="gray.50"
-                                borderColor="gray.200"
-                                borderStyle="solid"
-                                borderWidth="1px"
-                                overflow="auto"
-                                padding={4}
-                            >
-                                {stack}
-                            </Box>
-                        )}
-                    </Box>
+                    {stack && (
+                        <Box marginTop={20}>
+                            <Text fontWeight="bold" fontSize="md">
+                                Stack Trace
+                            </Text>
+                                <Box
+                                    as="pre"
+                                    mt={4}
+                                    fontSize="sm"
+                                    background="gray.50"
+                                    borderColor="gray.200"
+                                    borderStyle="solid"
+                                    borderWidth="1px"
+                                    overflow="auto"
+                                    padding={4}
+                                >
+                                    {stack}
+                                </Box>
+                        </Box>
+                    )}
                 </Flex>
             </Box>
         </Flex>
