@@ -94,19 +94,19 @@ const Error = (props) => {
                             <Text fontWeight="bold" fontSize="md">
                                 Stack Trace
                             </Text>
-                                <Box
-                                    as="pre"
-                                    mt={4}
-                                    fontSize="sm"
-                                    background="gray.50"
-                                    borderColor="gray.200"
-                                    borderStyle="solid"
-                                    borderWidth="1px"
-                                    overflow="auto"
-                                    padding={4}
-                                >
-                                    {stack}
-                                </Box>
+                            <Box
+                                as="pre"
+                                mt={4}
+                                fontSize="sm"
+                                background="gray.50"
+                                borderColor="gray.200"
+                                borderStyle="solid"
+                                borderWidth="1px"
+                                overflow="auto"
+                                padding={4}
+                            >
+                                {stack}
+                            </Box>
                         </Box>
                     )}
                 </Flex>
